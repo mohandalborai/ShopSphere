@@ -28,14 +28,14 @@ const ProductSlider = () => {
       });
   }, []);
 
-  // Auto-slide every 5 seconds (5000ms)
+ 
   useEffect(() => {
     if (products.length === 0) return;
 
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
-    }, 5000); // Change every 5 seconds
+    }, 5000); 
 
     return () => clearInterval(interval);
   }, [products.length]);
