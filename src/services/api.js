@@ -1,14 +1,29 @@
 import { API_BASE_URL } from '../utils/constants';
 
+const cache = new Map();
+
 const fetchFromApi = async (endpoint, options = {}) => {
+  const url = `${API_BASE_URL}${endpoint}`;
+  
+  // Simple caching for GET requests
+  const isGet = !options.method || options.method === 'GET';
+  if (isGet && cache.has(url)) {
+    return cache.get(url);
+  }
+
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+    const response = await fetch(url, options);
     if (!response.ok) {
       throw new Error(`API Error: ${response.statusText}`);
     }
-    return await response.json();
+    const data = await response.json();
+    
+    if (isGet) {
+      cache.set(url, data);
+    }
+    
+    return data;
   } catch (error) {
-    console.error(`Error fetching ${endpoint}:`, error);
     throw error;
   }
 };

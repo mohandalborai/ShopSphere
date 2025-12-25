@@ -48,6 +48,7 @@ function Navbar() {
             <button 
               onClick={toggleLanguage}
               className="hover:text-orange-800 transition font-semibold border border-white/20 px-2 py-0.5 rounded uppercase text-sm"
+              aria-label="Toggle language"
             >
               {language === 'en' ? 'AR' : 'EN'}
             </button>
@@ -57,6 +58,9 @@ function Navbar() {
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="bg-white text-orange-500 hover:bg-orange-50 px-4 py-2 rounded-lg font-semibold transition shadow-md hover:shadow-lg flex items-center gap-2"
+                  aria-expanded={showUserMenu}
+                  aria-haspopup="true"
+                  aria-label="User menu"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -104,6 +108,8 @@ function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="focus:outline-none"
+              aria-label="Toggle mobile menu"
+              aria-expanded={isOpen}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isOpen ? (

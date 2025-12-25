@@ -174,4 +174,10 @@ export const ar = {
   learn_about_mission: "تعرف على مهمتنا وقيمنا",
   discover_services: "اكتشف ما نقدمه",
   meet_partners: "تعرف على شركائنا الموثوقين",
+  
+  // Product Info
+  quantity_label: "الكمية:",
+  you_save_amount: "وفرت ${amount} ({percent}% خصم)",
+  free_shipping_threshold: "على الطلبات أكثر من $50",
+  warranty: "الضمان",
 };

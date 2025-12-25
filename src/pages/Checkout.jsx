@@ -58,7 +58,6 @@ const Checkout = () => {
   const validateForm = () => {
     const newErrors = {};
 
-
     
     if (!formData.firstName.trim()) newErrors.firstName = t('required_field');
     if (!formData.lastName.trim()) newErrors.lastName = t('required_field');
@@ -79,16 +78,45 @@ const Checkout = () => {
 
    
     
+    // Luhn Algorithm for basic credit card validation
+    const luhnCheck = (val) => {
+        let checksum = 0; 
+        let j = 1; 
+        for (let i = val.length - 1; i >= 0; i--) {
+          let calc = 0;
+          calc = Number(val.charAt(i)) * j;
+          if (calc > 9) {
+            checksum = checksum + 1;
+            calc = calc - 10;
+          }
+          checksum = checksum + calc;
+          if (j == 1) {j = 2} else {j = 1};
+        }
+        return (checksum % 10) == 0;
+    };
+
     if (!formData.cardNumber.trim()) {
       newErrors.cardNumber = t('required_field');
-    } else if (formData.cardNumber.replace(/\s/g, '').length < 16) {
-      newErrors.cardNumber = t('card_length_error');
+    } else {
+        const cleanNum = formData.cardNumber.replace(/\s/g, '');
+        if (cleanNum.length < 13 || cleanNum.length > 19) {
+             newErrors.cardNumber = t('card_length_error');
+        } else if (!luhnCheck(cleanNum)) {
+             newErrors.cardNumber = 'Invalid card number';
+        }
     }
+
     if (!formData.cardName.trim()) newErrors.cardName = t('required_field');
-    if (!formData.expiryDate.trim()) newErrors.expiryDate = t('required_field');
+    
+    if (!formData.expiryDate.trim()) {
+        newErrors.expiryDate = t('required_field');
+    } else if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.expiryDate)) {
+        newErrors.expiryDate = 'Invalid format (MM/YY)';
+    }
+
     if (!formData.cvv.trim()) {
       newErrors.cvv = t('required_field');
-    } else if (formData.cvv.length < 3) {
+    } else if (!/^\d{3,4}$/.test(formData.cvv)) {
       newErrors.cvv = t('cvv_length_error');
     }
 
@@ -102,22 +130,14 @@ const Checkout = () => {
     if (validateForm()) {
       setProcessing(true);
       
-
+      // Simulate API call
       setTimeout(() => {
-
-
-        console.log('Order Data:', {
-          customer: formData,
-          items: cartItems,
-          total: getCartTotal() * 1.1, 
-      
-          orderDate: new Date().toISOString()
-        });
-        
-      
+        // Clear cart and redirect
+        // In a real app, we would handle the server response here
         clearCart();
-        alert('Order placed successfully! 🎉');
-        navigate('/');
+        // Replacing alert with a more subtle notification would be better, 
+        // using the existing Toast system if globally available, for now keeping simple redirection
+        navigate('/', { state: { message: 'Order placed successfully!' } });
       }, 2000);
     }
   };
@@ -163,381 +183,24 @@ const Checkout = () => {
         <h1 className="text-4xl font-bold text-gray-900 mb-8">{t('checkout')}</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         
-         
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="space-y-6">
-        
-        
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('personal_info')}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('first_name')} *
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                        errors.firstName ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="John"
-                    />
-                    {errors.firstName && (
-                      <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('last_name')} *
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                        errors.lastName ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="Doe"
-                    />
-                    {errors.lastName && (
-                      <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('email')} *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                        errors.email ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="john.doe@example.com"
-                    />
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('phone')} *
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                        errors.phone ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="+1 (555) 123-4567"
-                    />
-                    {errors.phone && (
-                      <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-            
-            
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('shipping_address')}</h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('street_address')} *
-                    </label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                        errors.address ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="123 Main Street, Apt 4B"
-                    />
-                    {errors.address && (
-                      <p className="mt-1 text-sm text-red-500">{errors.address}</p>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('city')} *
-                      </label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                          errors.city ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                        placeholder="New York"
-                      />
-                      {errors.city && (
-                        <p className="mt-1 text-sm text-red-500">{errors.city}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('state')} *
-                      </label>
-                      <input
-                        type="text"
-                        name="state"
-                        value={formData.state}
-                        onChange={handleInputChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                          errors.state ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                        placeholder="NY"
-                      />
-                      {errors.state && (
-                        <p className="mt-1 text-sm text-red-500">{errors.state}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('zip_code')} *
-                      </label>
-                      <input
-                        type="text"
-                        name="zipCode"
-                        value={formData.zipCode}
-                        onChange={handleInputChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                          errors.zipCode ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                        placeholder="10001"
-                      />
-                      {errors.zipCode && (
-                        <p className="mt-1 text-sm text-red-500">{errors.zipCode}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('country')} *
-                      </label>
-                      <input
-                        type="text"
-                        name="country"
-                        value={formData.country}
-                        onChange={handleInputChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                          errors.country ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                        placeholder="United States"
-                      />
-                      {errors.country && (
-                        <p className="mt-1 text-sm text-red-500">{errors.country}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('payment_info')}</h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('card_number')} *
-                    </label>
-                    <input
-                      type="text"
-                      name="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                        errors.cardNumber ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="1234 5678 9012 3456"
-                      maxLength="19"
-                    />
-                    {errors.cardNumber && (
-                      <p className="mt-1 text-sm text-red-500">{errors.cardNumber}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('cardholder_name')} *
-                    </label>
-                    <input
-                      type="text"
-                      name="cardName"
-                      value={formData.cardName}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                        errors.cardName ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="John Doe"
-                    />
-                    {errors.cardName && (
-                      <p className="mt-1 text-sm text-red-500">{errors.cardName}</p>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('expiry_date')} *
-                      </label>
-                      <input
-                        type="text"
-                        name="expiryDate"
-                        value={formData.expiryDate}
-                        onChange={handleInputChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                          errors.expiryDate ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                        placeholder="MM/YY"
-                        maxLength="5"
-                      />
-                      {errors.expiryDate && (
-                        <p className="mt-1 text-sm text-red-500">{errors.expiryDate}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('cvv')} *
-                      </label>
-                      <input
-                        type="text"
-                        name="cvv"
-                        value={formData.cvv}
-                        onChange={handleInputChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
-                          errors.cvv ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                        placeholder="123"
-                        maxLength="4"
-                      />
-                      {errors.cvv && (
-                        <p className="mt-1 text-sm text-red-500">{errors.cvv}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-          
-          
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('order_notes')}</h2>
-                <textarea
-                  name="orderNotes"
-                  value={formData.orderNotes}
-                  onChange={handleInputChange}
-                  rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  placeholder={t('order_notes_placeholder')}
-                ></textarea>
-              </div>
-
-
-
-              <div className="flex gap-4">
-                <Link
-                  to="/cart"
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg text-center transition-colors duration-300"
-                >
-                  {t('back_to_cart')}
-                </Link>
-                <button
-                  type="submit"
-                  disabled={processing}
-                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {processing ? t('processing') : t('place_order')}
-                </button>
-              </div>
-            </form>
+            <CheckoutForm 
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleSubmit={handleSubmit}
+              errors={errors}
+              processing={processing}
+            />
           </div>
 
-         
-         
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('order_summary')}</h2>
-
-              
-              
-              <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
-                {cartItems.map(item => (
-                  <div key={item.id} className="flex gap-4">
-                    <img
-                      src={item.thumbnail}
-                      alt={item.title}
-                      className="w-16 h-16 object-contain bg-gray-100 rounded"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-sm">{item.title}</h3>
-                      <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                      <p className="text-orange-600 font-bold">${(item.price * item.quantity).toFixed(2)}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <hr className="my-4" />
-
-
-              <div className="space-y-3">
-                <div className="flex justify-between text-gray-700">
-                  <span>{t('subtotal')}:</span>
-                  <span className="font-semibold">${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>{t('shipping')}:</span>
-                  <span className="font-semibold text-green-600">{t('free')}</span>
-                </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>{t('tax')} (10%):</span>
-                  <span className="font-semibold">${tax.toFixed(2)}</span>
-                </div>
-                <hr />
-                <div className="flex justify-between text-xl font-bold text-gray-900">
-                  <span>{t('total')}:</span>
-                  <span className="text-orange-600">${total.toFixed(2)}</span>
-                </div>
-              </div>
-
-              
-              
-              <div className="mt-6 p-4 bg-green-50 rounded-lg">
-                <div className="flex items-center gap-2 text-green-700">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                  <span className="text-sm font-semibold">{t('secure_checkout')}</span>
-                </div>
-                <p className="text-xs text-green-600 mt-1">{t('secure_checkout_desc')}</p>
-              </div>
-            </div>
+            <OrderSummary 
+              cartItems={cartItems}
+              subtotal={subtotal}
+              tax={tax}
+              shipping={shipping}
+              total={total}
+            />
           </div>
         </div>
       </div>

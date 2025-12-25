@@ -1,11 +1,12 @@
-import { useState, Suspense, lazy } from 'react'
+import { Suspense, lazy } from 'react'
+import ErrorBoundary from './components/common/ErrorBoundary.jsx'
 import './App.css'
 import Navbar from './components/layout/Navbar.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import ScrollToTopButton from './components/common/ScrollToTopButton.jsx';
 import ScrollToTop from './components/common/ScrollToTop.jsx';
 import Footer from './components/layout/Footer.jsx'
-import 'animate.css';
+
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home.jsx'));
@@ -18,10 +19,8 @@ const Register = lazy(() => import('./pages/Register.jsx'));
 const Categories = lazy(() => import('./pages/Categories.jsx'));
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
+    <ErrorBoundary>
       <BrowserRouter>
         <ScrollToTop />
         <Navbar/>
@@ -45,8 +44,7 @@ function App() {
         <ScrollToTopButton />
         <Footer/>
       </BrowserRouter>
-      
-    </>
+    </ErrorBoundary>
   )
 }
 

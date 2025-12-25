@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -63,10 +66,12 @@ const Register = () => {
     const newErrors = validateForm();
     
     if (Object.keys(newErrors).length === 0) {
-      // Simulate successful registration
-      console.log('Registration successful:', formData);
-      // In a real app, you would create the account here
-      navigate('/login');
+      const result = register(formData.name, formData.email, formData.password);
+      if (result.success) {
+        navigate('/login', { state: { message: 'Registration successful! Please sign in.' } });
+      } else {
+        setErrors({ form: result.error }); // Assuming form generic error or specific
+      }
     } else {
       setErrors(newErrors);
     }
