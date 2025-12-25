@@ -167,4 +167,10 @@ export const en = {
   learn_about_mission: "Learn about our mission and values",
   discover_services: "Discover what we offer",
   meet_partners: "Meet our trusted partners",
+  
+  // Product Info
+  quantity_label: "Quantity:",
+  you_save_amount: "You save ${amount} ({percent}% off)",
+  free_shipping_threshold: "On orders $50+",
+  warranty: "Warranty",
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
+import { productService } from '../../services/api';
 
 const ProductSlider = () => {
   const { t } = useLanguage();
@@ -14,16 +15,12 @@ const ProductSlider = () => {
   // Fetch products
   useEffect(() => {
     
-    fetch('https://dummyjson.com/products?limit=10')
-    // fetch('http://127.0.0.1:8000/api/products?limit=10')
-
-      .then(res => res.json())
+    productService.getAllProducts(10)
       .then(data => {
         setProducts(data.products);
         setLoading(false);
       })
       .catch(err => {
-        console.error(err);
         setLoading(false);
       });
   }, []);

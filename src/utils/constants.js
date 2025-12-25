@@ -25,4 +25,4 @@ export const CATEGORY_CONFIG = {
   'womens-watches': { icon: '⌚', label: 'Women\'s Watches' }
 };
 
-export const API_BASE_URL = 'https://dummyjson.com';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://dummyjson.com';
