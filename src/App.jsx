@@ -17,6 +17,7 @@ const Checkout = lazy(() => import('./pages/Checkout.jsx'));
 const Login = lazy(() => import('./pages/Login.jsx'));
 const Register = lazy(() => import('./pages/Register.jsx'));
 const Categories = lazy(() => import('./pages/Categories.jsx'));
+const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
              <Route path="/checkout" element={<Checkout/>}/>
              <Route path="/login" element={<Login/>}/>
              <Route path="/register" element={<Register/>}/>
+             <Route path="*" element={<NotFound/>}/>
           </Routes>
         </Suspense>
         <ScrollToTopButton />
