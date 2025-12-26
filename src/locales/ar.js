@@ -95,7 +95,6 @@ export const ar = {
   meet_partners: "تعرف على شركائنا الموثوقين",
   hero_alt: "تجربة تسوق عبر الإنترنت",
   Featured_Products: "المنتجات المميزة",
-  Discover_our: "اكتشف مجموعتنا المختارة بعناية من المنتجات الرائعة",
   
   // Products Page
   our_products: "منتجاتنا",
@@ -114,6 +113,9 @@ export const ar = {
   view_product_details: "عرض تفاصيل المنتج",
   auto_playing: "تشغيل تلقائي",
   slider_info: "تتغير المنتجات تلقائياً كل 5 ثوانٍ • {current} من {total}",
+  prev_product: "المنتج السابق",
+  next_product: "المنتج التالي",
+  go_to_slide: "انتقل إلى الشريحة {index}",
   
   // Cart Page
   shopping_cart: "سلة التسوق",

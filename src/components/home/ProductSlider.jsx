@@ -253,7 +253,7 @@ const ProductSlider = () => {
           <button
             onClick={goToPrevious}
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-orange-500 text-gray-800 hover:text-white p-3 rounded-full shadow-lg transition-all duration-300 z-20 group"
-            aria-label="Previous product"
+            aria-label={t('prev_product')}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -263,7 +263,7 @@ const ProductSlider = () => {
           <button
             onClick={goToNext}
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-orange-500 text-gray-800 hover:text-white p-3 rounded-full shadow-lg transition-all duration-300 z-20 group"
-            aria-label="Next product"
+            aria-label={t('next_product')}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -281,7 +281,7 @@ const ProductSlider = () => {
                     ? 'bg-orange-500 w-8 h-3'
                     : 'bg-gray-300 hover:bg-gray-400 w-3 h-3'
                 }`}
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={t('go_to_slide', { index: index + 1 })}
               />
             ))}
           </div>
