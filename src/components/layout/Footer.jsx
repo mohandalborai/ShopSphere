@@ -15,8 +15,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-4 text-orange-500"> {t('About_ShopSphere1')}  </h3>
             <p className="text-gray-400 mb-4">
-              Your one-stop destination for all your shopping needs. We provide high-quality products
-              with exceptional customer service and fast shipping worldwide.
+              {t('about_footer_desc')}
             </p>
           </div>
 
@@ -75,7 +74,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 pt-8 text-center">
           <p className="text-gray-500">
-            &copy; {new Date().getFullYear()} ShopSphere. All rights reserved.
+            &copy; {new Date().getFullYear()} ShopSphere. {t('all_rights_reserved')}.
           </p>
         </div>
       </div>

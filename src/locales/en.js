@@ -19,6 +19,7 @@ export const en = {
   // Navbar
   home: "Home",
   products: "Products",
+  categories: "Categories",
   cart: "Cart",
   profile: "Profile",
   logout: "Logout",
@@ -86,12 +87,35 @@ export const en = {
   ready_to_shop: "Ready to Start Shopping?",
   explore_collection: "Explore our extensive collection of products and find exactly what you're looking for",
   browse_products: "Browse Products",
-  Discover_our:"Discover our handpicked selection of amazing products",
+  discover_our: "Discover our handpicked selection of amazing products",
+  quick_navigation: "Quick Navigation",
+  explore_sections: "Explore different sections of our store",
+  learn_about_mission: "Learn about our mission and values",
+  discover_services: "Discover what we offer",
+  meet_partners: "Meet our trusted partners",
+  hero_alt: "Online Shopping Experience",
+  Featured_Products: "Featured Products",
+  
   // Products Page
   our_products: "Our Products",
   no_products_found: "No Products Found",
   no_products_desc: "We couldn't find any products matching your search criteria. Try adjusting your filters or search terms.",
+  no_products_category: "No products found in this category.",
   added_to_cart: "Added to Cart!",
+  view_details: "View Details",
+  failed_load_categories: "Failed to load categories",
+  failed_load_products: "Failed to load products",
+  add_to_cart: "Add to Cart",
+  off: "OFF",
+  in_stock: "In Stock",
+  out_of_stock: "Out of Stock",
+  only_left: "Only {count} left",
+  view_product_details: "View Product Details",
+  auto_playing: "Auto-playing",
+  slider_info: "Products change automatically every 5 seconds • {current} of {total}",
+  prev_product: "Previous product",
+  next_product: "Next product",
+  go_to_slide: "Go to slide {index}",
   
   // Cart Page
   shopping_cart: "Shopping Cart",
@@ -139,12 +163,9 @@ export const en = {
   quick_links: "Quick Links",
   contact_us: "Contact Us",
   all_rights_reserved: "All rights reserved",
-  address:"123 , alwhada strets, Gaza ,palesten ",
-  Quick_Links:"Quick Links",
-  Contact_Us:"Contact Us",
-  About_ShopSphere1:"About ShopSphere",
+  address: "123 Al-Wahda Street, Gaza, Palestine",
+  
   // Validation Errors
-  add_to_cart:"Add to cart",
   required_field: "This field is required",
   invalid_email: "Email is invalid",
   card_length_error: "Card number must be 16 digits",
@@ -154,6 +175,7 @@ export const en = {
   passwords_no_match: "Passwords do not match",
   confirm_password_required: "Please confirm your password",
   agree_terms_required: "You must agree to the terms and conditions",
+  
   // Categories Page
   browse_categories: "Browse Categories",
   categories_subtitle: "Explore our extensive collection of products across various categories.",
@@ -161,16 +183,10 @@ export const en = {
   retry: "Retry",
   please_login_to_add_cart: "Please login to add items to cart",
   
-  // Home Page (Missing)
-  quick_navigation: "Quick Navigation",
-  explore_sections: "Explore different sections of our store",
-  learn_about_mission: "Learn about our mission and values",
-  discover_services: "Discover what we offer",
-  meet_partners: "Meet our trusted partners",
-  
   // Product Info
   quantity_label: "Quantity:",
   you_save_amount: "You save ${amount} ({percent}% off)",
   free_shipping_threshold: "On orders $50+",
   warranty: "Warranty",
+  qty: "Qty",
 };

@@ -19,10 +19,10 @@ export const ar = {
   // Navbar
   home: "الرئيسية",
   products: "المنتجات",
+  categories: "الفئات",
   cart: "السلة",
   profile: "الملف الشخصي",
   logout: "تسجيل الخروج",
-  categories :"فئات ",
   
   // Auth
   login: "تسجيل الدخول",
@@ -87,22 +87,39 @@ export const ar = {
   ready_to_shop: "هل أنت مستعد للبدء في التسوق؟",
   explore_collection: "استكشف مجموعتنا الواسعة من المنتجات واعثر على ما تبحث عنه بالضبط",
   browse_products: "تصفح المنتجات",
-  address :"عنوان",
-  Featured_Products:"منتجاتنا المميزة",
- Discover_our:" اكتشف مجموعتنا المختارة بعناية من المنتجات الرائعة",
+  discover_our: "اكتشف مجموعتنا المختارة بعناية من المنتجات الرائعة",
+  quick_navigation: "تصفح سريع",
+  explore_sections: "استكشف أقسام متجرنا المختلفة",
+  learn_about_mission: "تعرف على مهمتنا وقيمنا",
+  discover_services: "اكتشف ما نقدمه",
+  meet_partners: "تعرف على شركائنا الموثوقين",
+  hero_alt: "تجربة تسوق عبر الإنترنت",
+  Featured_Products: "المنتجات المميزة",
+  Discover_our: "اكتشف مجموعتنا المختارة بعناية من المنتجات الرائعة",
+  
   // Products Page
   our_products: "منتجاتنا",
   no_products_found: "لم يتم العثور على منتجات",
   no_products_desc: "لم نتمكن من العثور على أي منتجات تطابق معايير البحث الخاصة بك. حاول تعديل الفلاتر أو مصطلحات البحث.",
+  no_products_category: "لا توجد منتجات في هذه الفئة.",
   added_to_cart: "تمت الإضافة إلى السلة!",
-  address:"123 منطقة الجندي المجهول, شارع الوحدة,غزة ,فلسطين ",
-  Contact_Us:"تواصل معنا",
+  view_details: "عرض التفاصيل",
+  failed_load_categories: "فشل في تحميل الفئات",
+  failed_load_products: "فشل في تحميل المنتجات",
+  add_to_cart: "اضافة الى سلة",
+  off: "خصم",
+  in_stock: "متوفر",
+  out_of_stock: "غير متوفر",
+  only_left: "بقي {count} فقط",
+  view_product_details: "عرض تفاصيل المنتج",
+  auto_playing: "تشغيل تلقائي",
+  slider_info: "تتغير المنتجات تلقائياً كل 5 ثوانٍ • {current} من {total}",
+  
   // Cart Page
   shopping_cart: "سلة التسوق",
   clear_cart: "إفراغ السلة",
   remove: "إزالة",
   proceed_to_checkout: "متابعة الشراء",
-  add_to_cart:"اضافة الى سلة",
   
   // Checkout Page
   checkout: "إتمام الشراء",
@@ -144,12 +161,7 @@ export const ar = {
   quick_links: "روابط سريعة",
   contact_us: "اتصل بنا",
   all_rights_reserved: "جميع الحقوق محفوظة",
-  Quick_Links:"الوصول السريع",
-  address:"123 منطقة الجندي المجهول, شارع الوحدة,غزة ,فلسطين ",
-  Contact_Us:"تواصل معنا",
-  About_ShopSphere1:"من هو ShopSphere",
-
-  
+  address: "شارع الوحدة 123، غزة، فلسطين",
   
   // Validation Errors
   required_field: "هذا الحقل مطلوب",
@@ -161,6 +173,7 @@ export const ar = {
   passwords_no_match: "كلمات المرور غير متطابقة",
   confirm_password_required: "يرجى تأكيد كلمة المرور",
   agree_terms_required: "يجب الموافقة على الشروط والأحكام",
+  
   // Categories Page
   browse_categories: "تصفح الفئات",
   categories_subtitle: "استكشف مجموعتنا الواسعة من المنتجات عبر فئات مختلفة.",
@@ -168,16 +181,10 @@ export const ar = {
   retry: "إعادة المحاولة",
   please_login_to_add_cart: "يرجى تسجيل الدخول لإضافة عناصر إلى السلة",
   
-  // Home Page (Missing)
-  quick_navigation: "تصفح سريع",
-  explore_sections: "استكشف أقسام متجرنا المختلفة",
-  learn_about_mission: "تعرف على مهمتنا وقيمنا",
-  discover_services: "اكتشف ما نقدمه",
-  meet_partners: "تعرف على شركائنا الموثوقين",
-  
   // Product Info
   quantity_label: "الكمية:",
   you_save_amount: "وفرت ${amount} ({percent}% خصم)",
   free_shipping_threshold: "على الطلبات أكثر من $50",
   warranty: "الضمان",
+  qty: "الكمية",
 };

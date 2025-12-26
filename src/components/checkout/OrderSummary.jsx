@@ -19,7 +19,7 @@ const OrderSummary = memo(({ cartItems, subtotal, tax, shipping, total }) => {
             />
             <div className="flex-1">
               <h3 className="font-semibold text-sm">{item.title}</h3>
-              <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+              <p className="text-sm text-gray-600">{t('qty')}: {item.quantity}</p>
               <p className="text-orange-600 font-bold">${(item.price * item.quantity).toFixed(2)}</p>
             </div>
           </div>

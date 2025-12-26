@@ -143,7 +143,7 @@ const ProductSlider = () => {
                     transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                     className="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-full font-bold shadow-lg"
                   >
-                    -{currentProduct.discountPercentage.toFixed(0)}% OFF
+                    -{currentProduct.discountPercentage.toFixed(0)}% {t('off')}
                   </motion.div>
                 )}
 
@@ -156,7 +156,11 @@ const ProductSlider = () => {
                       ? 'bg-yellow-500 text-white' 
                       : 'bg-red-500 text-white'
                   }`}>
-                    {currentProduct.stock > 50 ? 'In Stock' : currentProduct.stock > 0 ? `Only ${currentProduct.stock} left` : 'Out of Stock'}
+                    {currentProduct.stock > 50 
+                      ? t('in_stock') 
+                      : currentProduct.stock > 0 
+                      ? t('only_left', { count: currentProduct.stock }) 
+                      : t('out_of_stock')}
                   </span>
                 </div>
               </div>
@@ -220,7 +224,10 @@ const ProductSlider = () => {
                   </div>
                   {currentProduct.discountPercentage > 0 && (
                     <p className="text-green-600 font-semibold mt-2">
-                      You save ${(currentProduct.price - discountedPrice).toFixed(2)}!
+                      {t('you_save_amount', {
+                        amount: (currentProduct.price - discountedPrice).toFixed(2),
+                        percent: currentProduct.discountPercentage.toFixed(0)
+                      })}
                     </p>
                   )}
                 </div>
@@ -236,7 +243,7 @@ const ProductSlider = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  View Product Details
+                  {t('view_product_details')}
                 </motion.button>
               </div>
             </motion.div>
@@ -282,7 +289,7 @@ const ProductSlider = () => {
           {/* Auto-play Indicator */}
           <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-full shadow-md flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-xs font-semibold text-gray-700">Auto-playing</span>
+            <span className="text-xs font-semibold text-gray-700">{t('auto_playing')}</span>
           </div>
         </div>
 
@@ -299,7 +306,7 @@ const ProductSlider = () => {
 
         {/* Info Text */}
         <p className="text-center text-sm text-gray-500 mt-4">
-          Products change automatically every 5 seconds • {currentIndex + 1} of {products.length}
+          {t('slider_info', { current: currentIndex + 1, total: products.length })}
         </p>
       </div>
     </section>

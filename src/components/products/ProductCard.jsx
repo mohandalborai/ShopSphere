@@ -61,7 +61,7 @@ const ProductCard = ({ product, onAddToCart, categoryIcon }) => {
             className="w-full bg-white hover:bg-gray-50 text-orange-600 font-semibold py-2 rounded-lg border-2 border-orange-500 transition-all duration-300 shadow-sm hover:shadow-md"
             aria-label={`View details for ${product.title}`}
           >
-            View Details
+            {t('view_details')}
           </button>
           <button
             onClick={() => onAddToCart(product)}
