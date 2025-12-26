@@ -32,7 +32,7 @@ const Categories = () => {
         const data = await productService.getCategories();
         setCategories(data);
       } catch (err) {
-        setError('Failed to load categories');
+        setError(t('failed_load_categories'));
       } finally {
         setLoading(false);
       }
@@ -60,7 +60,7 @@ const Categories = () => {
         setProducts(data.products);
         setCurrentPage(1);
       } catch (err) {
-        setError('Failed to load products');
+        setError(t('failed_load_products'));
       } finally {
         setLoadingProducts(false);
       }
@@ -180,7 +180,7 @@ const Categories = () => {
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-gray-500 text-xl">{t('no_products_found') || 'No products found in this category.'}</p>
+            <p className="text-gray-500 text-xl">{t('no_products_category')}</p>
           </div>
         ) : (
           <>

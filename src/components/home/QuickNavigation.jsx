@@ -115,10 +115,10 @@ const QuickNavigation = () => {
                   />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 group-hover:text-white text-center mb-3 transition-colors duration-300">
-                  {t('browse_products') || 'Browse Products'}
+                  {t('browse_products')}
                 </h3>
                 <p className="text-gray-600 group-hover:text-green-50 text-center transition-colors duration-300">
-                  {t('explore_collection') || 'Explore our full collection'}
+                  {t('explore_collection')}
                 </p>
               </div>
 

@@ -44,7 +44,7 @@ const HeroSection = () => {
               <div className="bg-white rounded-3xl shadow-5xl p-6 transform hover:scale-105 transition-transform duration-300">
                 <img
                   src="/shopping_hero_banner_1763932114007.png"
-                  alt="Online Shopping Experience"
+                  alt={t('hero_alt')}
                   className="w-full h-auto rounded-lg"
                   onError={(e) => {
                     e.target.style.display = 'none';
