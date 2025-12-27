@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import CheckoutForm from '../components/checkout/CheckoutForm';
+import OrderSummary from '../components/checkout/OrderSummary';
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
