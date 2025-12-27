@@ -40,12 +40,26 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="bg-white rounded-3xl shadow-5xl p-6 transform hover:scale-105 transition-transform duration-300">
+            <motion.div 
+              className="relative [perspective:1000px]"
+              whileHover={{ rotateX: 5, rotateY: -5 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <motion.div 
+                className="bg-white rounded-3xl shadow-5xl p-6 [transform-style:preserve-3d]"
+                animate={{ 
+                  y: [0, -20, 0],
+                }}
+                transition={{ 
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
                 <img
                   src="/shopping_hero_banner_1763932114007.png"
                   alt={t('hero_alt')}
-                  className="w-full h-auto rounded-lg"
+                  className="w-full h-auto rounded-lg drop-shadow-2xl translate-z-10"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.parentElement.innerHTML = `
@@ -56,13 +70,52 @@ const HeroSection = () => {
                       </div>`;
                   }}
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
 
-        <div className="absolute top-0 right-0 w-64 h-64 bg-orange-400 rounded-full blur-3xl opacity-30 -z-0"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-700 rounded-full blur-3xl opacity-20 -z-0"></div>
+        {/* Interactive 3D Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            animate={{
+              x: [0, 100, 0],
+              y: [0, 50, 0],
+              rotate: [0, 360],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute -top-20 -right-20 w-96 h-96 bg-orange-400/20 rounded-full blur-[100px]"
+          />
+          <motion.div
+            animate={{
+              x: [0, -150, 0],
+              y: [0, 100, 0],
+              rotate: [360, 0],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute -bottom-40 -left-20 w-[500px] h-[500px] bg-orange-700/10 rounded-full blur-[120px]"
+          />
+          
+          {/* Floating 3D Elements */}
+          <motion.div
+            animate={{ y: [0, -40, 0], rotate: [0, 15, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-1/4 right-1/4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-lg shadow-2xl [transform:rotateX(45deg)_rotateY(45deg)]"
+          />
+          <motion.div
+            animate={{ y: [0, 60, 0], rotate: [0, -20, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute bottom-1/4 left-1/3 w-16 h-16 bg-orange-300/30 backdrop-blur-md rounded-full shadow-2xl"
+          />
+        </div>
       </section>
     );
 };

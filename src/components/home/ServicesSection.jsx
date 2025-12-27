@@ -27,68 +27,80 @@ const ServicesSection = () => {
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ rotateY: 10, rotateX: -5, translateZ: 20, scale: 1.05 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 [transform-style:preserve-3d] [perspective:1000px] cursor-default"
             >
-              <div className="w-24 h-24 mb-4 mx-auto">
-                <img src="/3d_shopping_bags.png" alt="Free Shipping" className="w-full h-full object-contain" />
+              <div className="w-24 h-24 mb-4 mx-auto [transform:translateZ(50px)]">
+                <img src="/3d_shopping_bags.png" alt="Free Shipping" className="w-full h-full object-contain drop-shadow-xl" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('free_shipping')}</h3>
-              <p className="text-gray-600 text-center">
-                {t('free_shipping_desc')}
-              </p>
+              <div className="[transform:translateZ(30px)]">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('free_shipping')}</h3>
+                <p className="text-gray-600 text-center">
+                  {t('free_shipping_desc')}
+                </p>
+              </div>
             </motion.div>
 
             {/* 24/7 Support with 3D Image */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ rotateY: -10, rotateX: -5, translateZ: 20, scale: 1.05 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 [transform-style:preserve-3d] [perspective:1000px] cursor-default"
             >
-              <div className="w-24 h-24 mb-4 mx-auto">
-                <img src="/3d_shopping_cart.png" alt="24/7 Support" className="w-full h-full object-contain" />
+              <div className="w-24 h-24 mb-4 mx-auto [transform:translateZ(50px)]">
+                <img src="/3d_shopping_cart.png" alt="24/7 Support" className="w-full h-full object-contain drop-shadow-xl" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('support_24_7')}</h3>
-              <p className="text-gray-600 text-center">
-                {t('support_24_7_desc')}
-              </p>
+              <div className="[transform:translateZ(30px)]">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('support_24_7')}</h3>
+                <p className="text-gray-600 text-center">
+                  {t('support_24_7_desc')}
+                </p>
+              </div>
             </motion.div>
 
             {/* Secure Payment with 3D Image */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ rotateY: 10, rotateX: 5, translateZ: 20, scale: 1.05 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 [transform-style:preserve-3d] [perspective:1000px] cursor-default"
             >
-              <div className="w-24 h-24 mb-4 mx-auto">
-                <img src="/3d_credit_card.png" alt="Secure Payment" className="w-full h-full object-contain" />
+              <div className="w-24 h-24 mb-4 mx-auto [transform:translateZ(50px)]">
+                <img src="/3d_credit_card.png" alt="Secure Payment" className="w-full h-full object-contain drop-shadow-xl" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('secure_payment')}</h3>
-              <p className="text-gray-600 text-center">
-                {t('secure_payment_desc')}
-              </p>
+              <div className="[transform:translateZ(30px)]">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('secure_payment')}</h3>
+                <p className="text-gray-600 text-center">
+                  {t('secure_payment_desc')}
+                </p>
+              </div>
             </motion.div>
 
             {/* Easy Returns with 3D Image */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ rotateY: -10, rotateX: 5, translateZ: 20, scale: 1.05 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 [transform-style:preserve-3d] [perspective:1000px] cursor-default"
             >
-              <div className="w-24 h-24 mb-4 mx-auto">
-                <img src="/3d_gift_box.png" alt="Easy Returns" className="w-full h-full object-contain" />
+              <div className="w-24 h-24 mb-4 mx-auto [transform:translateZ(50px)]">
+                <img src="/3d_gift_box.png" alt="Easy Returns" className="w-full h-full object-contain drop-shadow-xl" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('easy_returns')}</h3>
-              <p className="text-gray-600 text-center">
-                {t('easy_returns_desc')}
-              </p>
+              <div className="[transform:translateZ(30px)]">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">{t('easy_returns')}</h3>
+                <p className="text-gray-600 text-center">
+                  {t('easy_returns_desc')}
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
