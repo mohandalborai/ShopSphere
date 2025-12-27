@@ -2,11 +2,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-// Basic hash function for demonstration purposes
-const simpleHash = (str) => {
+// Enhanced hash function with salting for better security demonstration
+const simpleHash = (str, salt = "shopsphere_secure_salt") => {
   let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
+  const saltedStr = str + salt;
+  for (let i = 0; i < saltedStr.length; i++) {
+    const char = saltedStr.charCodeAt(i);
     hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32bit integer
   }

@@ -18,8 +18,15 @@ const ProductCard = ({ product, onAddToCart, categoryIcon }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
+      whileHover={{ 
+        y: -10, 
+        rotateY: 10,
+        rotateX: -5,
+        scale: 1.02,
+        transition: { duration: 0.3 }
+      }}
       transition={{ duration: 0.3 }}
-      className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 overflow-hidden flex flex-col"
+      className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 overflow-hidden flex flex-col [transform-style:preserve-3d] [perspective:1000px]"
     >
       <div 
         onClick={handleViewDetails}

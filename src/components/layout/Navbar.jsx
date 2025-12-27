@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useLanguage } from "../../context/LanguageContext";
+import { motion } from "framer-motion";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,15 +14,20 @@ function Navbar() {
   const cartCount = getCartCount();
 
   return (
-    <nav className="bg-orange-500 text-white shadow-md sticky top-0 z-50">
+    <nav className="bg-orange-500/90 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-18 py-2">
 
-         
-          <Link to="/" className="flex items-center gap-2 hover:opacity-95 transition pl-2">
-            <img src="/shopsphere_logo.png" alt="ShopSphere" className="h-14 w-14" />
-            <span className="text-2xl font-bold">ShopSphere</span>
-          </Link>
+          <motion.div
+            whileHover={{ perspective: 1000, rotateY: 15, rotateX: -10, scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="[transform-style:preserve-3d]"
+          >
+            <Link to="/" className="flex items-center gap-2 hover:opacity-95 transition pl-2">
+              <img src="/shopsphere_logo.png" alt="ShopSphere" className="h-14 w-14 drop-shadow-[0_5px_15px_rgba(0,0,0,0.3)] [transform:translateZ(20px)]" />
+              <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent [transform:translateZ(10px)]">ShopSphere</span>
+            </Link>
+          </motion.div>
 
        
           <div className="hidden md:flex gap-8 text-lg pr-2 items-center">

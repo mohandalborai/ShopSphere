@@ -76,17 +76,17 @@ const ProductSlider = () => {
 
   const slideVariants = {
     enter: (direction) => ({
-      x: direction > 0 ? 1000 : -1000,
+      rotateY: direction > 0 ? 110 : -110,
       opacity: 0,
       scale: 0.8,
     }),
     center: {
-      x: 0,
+      rotateY: 0,
       opacity: 1,
       scale: 1,
     },
     exit: (direction) => ({
-      x: direction > 0 ? -1000 : 1000,
+      rotateY: direction > 0 ? -110 : 110,
       opacity: 0,
       scale: 0.8,
     }),
@@ -109,7 +109,7 @@ const ProductSlider = () => {
         </div>
 
         {/* Slider Container */}
-        <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden [perspective:1500px]">
           <AnimatePresence initial={false} custom={direction} mode="popLayout">
             <motion.div
               key={currentIndex}
@@ -119,11 +119,11 @@ const ProductSlider = () => {
               animate="center"
               exit="exit"
               transition={{
-                x: { type: "spring", stiffness: 100, damping: 25 },
-                opacity: { duration: 1 },
-                scale: { duration: 1 },
-            }}    
-              className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8 md:p-12"
+                rotateY: { type: "spring", stiffness: 70, damping: 15 },
+                opacity: { duration: 0.6 },
+                scale: { duration: 0.6 },
+              }}    
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8 md:p-12 [transform-style:preserve-3d]"
             >
               {/* Product Image */}
               <div className="relative group">
