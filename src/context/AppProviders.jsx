@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { AuthProvider } from './AuthContext';
 import { LanguageProvider } from './LanguageContext';
+import { WishlistProvider } from './WishlistContext';
+import { OrderProvider } from './OrderContext';
 import { CartProvider } from './CartContext';
 
 /**
@@ -14,15 +16,21 @@ import { CartProvider } from './CartContext';
  * Order:
  * 1. AuthProvider: User authentication state (might satisfy Language preferences)
  * 2. LanguageProvider: Internationalization (might be needed by Cart for localized messages)
- * 3. CartProvider: Shopping cart state (needs User and Language potentially)
+ * 3. WishlistProvider: Wishlist state
+ * 4. OrderProvider: Order history state
+ * 5. CartProvider: Shopping cart state (needs User and Language potentially)
  */
 const AppProviders = ({ children }) => {
   return (
     <AuthProvider>
       <LanguageProvider>
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <WishlistProvider>
+          <OrderProvider>
+            <CartProvider>
+              {children}
+            </CartProvider>
+          </OrderProvider>
+        </WishlistProvider>
       </LanguageProvider>
     </AuthProvider>
   );

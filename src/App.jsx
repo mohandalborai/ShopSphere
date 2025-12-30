@@ -18,6 +18,8 @@ const Login = lazy(() => import('./pages/Login.jsx'));
 const Register = lazy(() => import('./pages/Register.jsx'));
 const Categories = lazy(() => import('./pages/Categories.jsx'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
+const Wishlist = lazy(() => import('./pages/Wishlist.jsx'));
+const OrderHistory = lazy(() => import('./pages/OrderHistory.jsx'));
 
 function App() {
   const location = useLocation();
@@ -49,6 +51,8 @@ function App() {
                <Route path="/checkout" element={<Checkout/>}/>
                <Route path="/login" element={<Login/>}/>
                <Route path="/register" element={<Register/>}/>
+               <Route path="/wishlist" element={<Wishlist/>}/>
+               <Route path="/orders" element={<OrderHistory/>}/>
                <Route path="*" element={<NotFound/>}/>
             </Routes>
           </motion.div>

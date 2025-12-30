@@ -3,6 +3,19 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 
+/**
+ * CheckoutForm Component
+ * 
+ * Renders the checkout form with personal, shipping, and payment information sections.
+ * Optimized with React.memo.
+ * 
+ * @param {Object} props
+ * @param {Object} props.formData - Form data state
+ * @param {Function} props.handleInputChange - Handler for input changes
+ * @param {Function} props.handleSubmit - Handler for form submission
+ * @param {Object} props.errors - Validation errors object
+ * @param {boolean} props.processing - Processing state flag
+ */
 const CheckoutForm = memo(({ 
   formData, 
   handleInputChange, 
@@ -18,78 +31,90 @@ const CheckoutForm = memo(({
         <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('personal_info')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
               {t('first_name')} *
             </label>
             <input
               type="text"
+              id="firstName"
               name="firstName"
               value={formData.firstName}
               onChange={handleInputChange}
+              aria-invalid={!!errors.firstName}
+              aria-describedby={errors.firstName ? "firstName-error" : undefined}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.firstName ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="John"
             />
             {errors.firstName && (
-              <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>
+              <p id="firstName-error" className="mt-1 text-sm text-red-500" role="alert">{errors.firstName}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
               {t('last_name')} *
             </label>
             <input
               type="text"
+              id="lastName"
               name="lastName"
               value={formData.lastName}
               onChange={handleInputChange}
+              aria-invalid={!!errors.lastName}
+              aria-describedby={errors.lastName ? "lastName-error" : undefined}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.lastName ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Doe"
             />
             {errors.lastName && (
-              <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>
+              <p id="lastName-error" className="mt-1 text-sm text-red-500" role="alert">{errors.lastName}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="checkout-email" className="block text-sm font-medium text-gray-700 mb-2">
               {t('email')} *
             </label>
             <input
               type="email"
+              id="checkout-email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+               aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "checkout-email-error" : undefined}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.email ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="john.doe@example.com"
             />
             {errors.email && (
-              <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+              <p id="checkout-email-error" className="mt-1 text-sm text-red-500" role="alert">{errors.email}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
               {t('phone')} *
             </label>
             <input
               type="tel"
+              id="phone"
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
+               aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.phone ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="+1 (555) 123-4567"
             />
             {errors.phone && (
-              <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+              <p id="phone-error" className="mt-1 text-sm text-red-500" role="alert">{errors.phone}</p>
             )}
           </div>
         </div>
@@ -105,94 +130,109 @@ const CheckoutForm = memo(({
             <input
               type="text"
               name="address"
+              id="address"
               value={formData.address}
               onChange={handleInputChange}
+              aria-invalid={!!errors.address}
+              aria-describedby={errors.address ? "address-error" : undefined}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.address ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="123 Main Street, Apt 4B"
             />
             {errors.address && (
-              <p className="mt-1 text-sm text-red-500">{errors.address}</p>
+              <p id="address-error" className="mt-1 text-sm text-red-500" role="alert">{errors.address}</p>
             )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
                 {t('city')} *
               </label>
               <input
                 type="text"
                 name="city"
+                id="city"
                 value={formData.city}
                 onChange={handleInputChange}
+                aria-invalid={!!errors.city}
+                aria-describedby={errors.city ? "city-error" : undefined}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.city ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="New York"
               />
               {errors.city && (
-                <p className="mt-1 text-sm text-red-500">{errors.city}</p>
+                <p id="city-error" className="mt-1 text-sm text-red-500" role="alert">{errors.city}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-2">
                 {t('state')} *
               </label>
               <input
                 type="text"
                 name="state"
+                id="state"
                 value={formData.state}
                 onChange={handleInputChange}
+                aria-invalid={!!errors.state}
+                aria-describedby={errors.state ? "state-error" : undefined}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.state ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="NY"
               />
               {errors.state && (
-                <p className="mt-1 text-sm text-red-500">{errors.state}</p>
+                <p id="state-error" className="mt-1 text-sm text-red-500" role="alert">{errors.state}</p>
               )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-2">
                 {t('zip_code')} *
               </label>
               <input
                 type="text"
                 name="zipCode"
+                id="zipCode"
                 value={formData.zipCode}
                 onChange={handleInputChange}
+                aria-invalid={!!errors.zipCode}
+                aria-describedby={errors.zipCode ? "zipCode-error" : undefined}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.zipCode ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="10001"
               />
               {errors.zipCode && (
-                <p className="mt-1 text-sm text-red-500">{errors.zipCode}</p>
+                <p id="zipCode-error" className="mt-1 text-sm text-red-500" role="alert">{errors.zipCode}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
                 {t('country')} *
               </label>
               <input
                 type="text"
                 name="country"
+                id="country"
                 value={formData.country}
                 onChange={handleInputChange}
+                aria-invalid={!!errors.country}
+                aria-describedby={errors.country ? "country-error" : undefined}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.country ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="United States"
               />
               {errors.country && (
-                <p className="mt-1 text-sm text-red-500">{errors.country}</p>
+                <p id="country-error" className="mt-1 text-sm text-red-500" role="alert">{errors.country}</p>
               )}
             </div>
           </div>
@@ -203,14 +243,17 @@ const CheckoutForm = memo(({
         <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('payment_info')}</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-2">
               {t('card_number')} *
             </label>
             <input
               type="text"
               name="cardNumber"
+              id="cardNumber"
               value={formData.cardNumber}
               onChange={handleInputChange}
+              aria-invalid={!!errors.cardNumber}
+              aria-describedby={errors.cardNumber ? "cardNumber-error" : undefined}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.cardNumber ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -218,39 +261,45 @@ const CheckoutForm = memo(({
               maxLength="19"
             />
             {errors.cardNumber && (
-              <p className="mt-1 text-sm text-red-500">{errors.cardNumber}</p>
+              <p id="cardNumber-error" className="mt-1 text-sm text-red-500" role="alert">{errors.cardNumber}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="cardName" className="block text-sm font-medium text-gray-700 mb-2">
               {t('cardholder_name')} *
             </label>
             <input
               type="text"
               name="cardName"
+              id="cardName"
               value={formData.cardName}
               onChange={handleInputChange}
+              aria-invalid={!!errors.cardName}
+              aria-describedby={errors.cardName ? "cardName-error" : undefined}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.cardName ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="John Doe"
             />
             {errors.cardName && (
-              <p className="mt-1 text-sm text-red-500">{errors.cardName}</p>
+              <p id="cardName-error" className="mt-1 text-sm text-red-500" role="alert">{errors.cardName}</p>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-2">
                 {t('expiry_date')} *
               </label>
               <input
                 type="text"
                 name="expiryDate"
+                id="expiryDate"
                 value={formData.expiryDate}
                 onChange={handleInputChange}
+                aria-invalid={!!errors.expiryDate}
+                aria-describedby={errors.expiryDate ? "expiryDate-error" : undefined}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.expiryDate ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -258,19 +307,22 @@ const CheckoutForm = memo(({
                 maxLength="5"
               />
               {errors.expiryDate && (
-                <p className="mt-1 text-sm text-red-500">{errors.expiryDate}</p>
+                <p id="expiryDate-error" className="mt-1 text-sm text-red-500" role="alert">{errors.expiryDate}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-2">
                 {t('cvv')} *
               </label>
               <input
                 type="text"
                 name="cvv"
+                id="cvv"
                 value={formData.cvv}
                 onChange={handleInputChange}
+                aria-invalid={!!errors.cvv}
+                aria-describedby={errors.cvv ? "cvv-error" : undefined}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.cvv ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -278,7 +330,7 @@ const CheckoutForm = memo(({
                 maxLength="4"
               />
               {errors.cvv && (
-                <p className="mt-1 text-sm text-red-500">{errors.cvv}</p>
+                <p id="cvv-error" className="mt-1 text-sm text-red-500" role="alert">{errors.cvv}</p>
               )}
             </div>
           </div>
@@ -289,11 +341,13 @@ const CheckoutForm = memo(({
         <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('order_notes')}</h2>
         <textarea
           name="orderNotes"
+          id="orderNotes"
           value={formData.orderNotes}
           onChange={handleInputChange}
           rows="4"
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
           placeholder={t('order_notes_placeholder')}
+          aria-label={t('order_notes')}
         ></textarea>
       </div>
 

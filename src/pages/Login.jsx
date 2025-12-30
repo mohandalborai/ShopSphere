@@ -114,13 +114,15 @@ const Login = () => {
                 autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
                 className={`block w-full px-4 py-3 border ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 } rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors`}
                 placeholder="you@example.com"
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                <p id="email-error" className="mt-1 text-sm text-red-600" role="alert">{errors.email}</p>
               )}
             </div>
 
@@ -135,13 +137,15 @@ const Login = () => {
                 autoComplete="current-password"
                 value={formData.password}
                 onChange={handleChange}
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? "password-error" : undefined}
                 className={`block w-full px-4 py-3 border ${
                   errors.password ? 'border-red-500' : 'border-gray-300'
                 } rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors`}
                 placeholder="••••••••"
               />
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                <p id="password-error" className="mt-1 text-sm text-red-600" role="alert">{errors.password}</p>
               )}
             </div>
 

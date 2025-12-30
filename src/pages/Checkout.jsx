@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useOrders } from '../context/OrderContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import CheckoutForm from '../components/checkout/CheckoutForm';
@@ -7,34 +8,24 @@ import OrderSummary from '../components/checkout/OrderSummary';
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
+  const { addOrder } = useOrders();
   const navigate = useNavigate();
   const { t } = useLanguage();
   
   const [formData, setFormData] = useState({
-    
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    
-
-    
     address: '',
     city: '',
     state: '',
     zipCode: '',
     country: '',
-    
-   
-    
-
     cardNumber: '',
     cardName: '',
     expiryDate: '',
     cvv: '',
-    
-  
-    
     orderNotes: ''
   });
 
@@ -48,7 +39,6 @@ const Checkout = () => {
       [name]: value
     }));
   
-    
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -60,7 +50,6 @@ const Checkout = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    
     if (!formData.firstName.trim()) newErrors.firstName = t('required_field');
     if (!formData.lastName.trim()) newErrors.lastName = t('required_field');
     if (!formData.email.trim()) {
@@ -69,16 +58,12 @@ const Checkout = () => {
       newErrors.email = t('invalid_email');
     }
     if (!formData.phone.trim()) newErrors.phone = t('required_field');
-
-
     
     if (!formData.address.trim()) newErrors.address = t('required_field');
     if (!formData.city.trim()) newErrors.city = t('required_field');
     if (!formData.state.trim()) newErrors.state = t('required_field');
     if (!formData.zipCode.trim()) newErrors.zipCode = t('required_field');
     if (!formData.country.trim()) newErrors.country = t('required_field');
-
-   
     
     // Luhn Algorithm for basic credit card validation
     const luhnCheck = (val) => {
@@ -134,12 +119,27 @@ const Checkout = () => {
       
       // Simulate API call
       setTimeout(() => {
-        // Clear cart and redirect
-        // In a real app, we would handle the server response here
+        const subtotal = getCartTotal();
+        const tax = subtotal * 0.1;
+        const total = subtotal + tax;
+        
+        const orderData = {
+           items: cartItems,
+           total: total,
+           shippingAddress: {
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              zipCode: formData.zipCode,
+              country: formData.country,
+           },
+           paymentMethod: 'Credit Card',
+        };
+
+        addOrder(orderData);
+        
         clearCart();
-        // Replacing alert with a more subtle notification would be better, 
-        // using the existing Toast system if globally available, for now keeping simple redirection
-        navigate('/', { state: { message: 'Order placed successfully!' } });
+        navigate('/orders', { state: { message: 'Order placed successfully!' } });
       }, 2000);
     }
   };

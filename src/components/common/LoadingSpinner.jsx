@@ -2,6 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useLanguage } from '../../context/LanguageContext';
 
+/**
+ * LoadingSpinner Component
+ * 
+ * Displays a loading spinner with customizable size and color.
+ * Can be displayed full screen or inline.
+ * 
+ * @param {Object} props - Component props
+ * @param {boolean} [props.fullScreen=false] - Whether to show the spinner full screen
+ * @param {'small'|'medium'|'large'} [props.size='medium'] - Size of the spinner
+ * @param {'orange'|'blue'|'white'} [props.color='orange'] - Color theme of the spinner
+ */
 const LoadingSpinner = ({ fullScreen = false, size = 'medium', color = 'orange' }) => {
   const { t } = useLanguage();
 
