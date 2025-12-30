@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import logger from '../utils/logger';
 
 const CartContext = createContext();
+
 
 export const useCart = () => {
   const context = useContext(CartContext);
@@ -16,7 +18,7 @@ export const CartProvider = ({ children }) => {
       const savedCart = localStorage.getItem('cartItems');
       return savedCart ? JSON.parse(savedCart) : [];
     } catch (error) {
-      console.error('Failed to load cart from localStorage:', error);
+      logger.error('Failed to load cart from localStorage:', error);
       return [];
     }
   });
@@ -25,7 +27,7 @@ export const CartProvider = ({ children }) => {
     try {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     } catch (error) {
-      console.error('Failed to save cart to localStorage:', error);
+      logger.error('Failed to save cart to localStorage:', error);
     }
   }, [cartItems]);
 
@@ -73,7 +75,7 @@ export const CartProvider = ({ children }) => {
     return cartItems.reduce((count, item) => count + item.quantity, 0);
   };
 
-  const value = {
+  const value = React.useMemo(() => ({
     cartItems,
     addToCart,
     removeFromCart,
@@ -81,7 +83,7 @@ export const CartProvider = ({ children }) => {
     clearCart,
     getCartTotal,
     getCartCount,
-  };
+  }), [cartItems]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

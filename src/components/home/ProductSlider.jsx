@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
+import { UI_CONFIG } from '../../utils/constants';
 import { productService } from '../../services/api';
 
 const ProductSlider = () => {
@@ -15,7 +16,7 @@ const ProductSlider = () => {
   // Fetch products
   useEffect(() => {
     
-    productService.getAllProducts(10)
+    productService.getAllProducts(UI_CONFIG.FEATURED_PRODUCTS_LIMIT)
       .then(data => {
         setProducts(data.products);
         setLoading(false);
@@ -32,7 +33,7 @@ const ProductSlider = () => {
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
-    }, 5000); 
+    }, UI_CONFIG.AUTO_PLAY_INTERVAL); 
 
     return () => clearInterval(interval);
   }, [products.length]);

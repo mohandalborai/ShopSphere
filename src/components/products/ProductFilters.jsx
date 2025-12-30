@@ -1,7 +1,28 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useLanguage } from '../../context/LanguageContext';
+import { UI_CONFIG } from '../../utils/constants';
 
+/**
+ * ProductFilters Component
+ * 
+ * providing search, category selection, sorting, and price range filtering.
+ * Wrapped in React.memo to prevent unnecessary re-renders.
+ * 
+ * @param {Object} props
+ * @param {string} props.search - Current search term
+ * @param {Function} props.setSearch - Setter for search term
+ * @param {boolean} props.isSearching - Loading state for search
+ * @param {string} props.category - Current selected category
+ * @param {Function} props.setCategory - Setter for category
+ * @param {string} props.sort - Current sort option
+ * @param {Function} props.setSort - Setter for sort option
+ * @param {string[]} props.categories - List of available categories
+ * @param {number} props.productCount - Total number of filtered products
+ * @param {number[]} props.priceRange - Current price range [min, max]
+ * @param {Function} props.setPriceRange - Setter for price range
+ * @param {Function} props.setCurrentPage - Setter for current page (to reset on filter change)
+ */
 const ProductFilters = memo(({
   search,
   setSearch,
@@ -29,7 +50,10 @@ const ProductFilters = memo(({
               type="text"
               placeholder={t('search_placeholder')}
               value={search}
-              onChange={e => { setSearch(e.target.value); setCurrentPage(1); }}
+              onChange={e => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
               className="border border-gray-300 px-3 py-2 text-sm rounded-md w-full focus:ring-1 focus:ring-orange-400 focus:border-orange-400 focus:outline-none pr-10"
             />
             {isSearching && (
@@ -109,18 +133,18 @@ const ProductFilters = memo(({
                   className="absolute h-1 bg-orange-500 rounded-full"
                   style={{
                     left: isRTL 
-                      ? `${100 - (priceRange[1] / 2000) * 100}%` 
-                      : `${(priceRange[0] / 2000) * 100}%`,
+                      ? `${100 - (priceRange[1] / UI_CONFIG.MAX_PRICE_RANGE) * 100}%` 
+                      : `${(priceRange[0] / UI_CONFIG.MAX_PRICE_RANGE) * 100}%`,
                     right: isRTL 
-                      ? `${(priceRange[0] / 2000) * 100}%` 
-                      : `${100 - (priceRange[1] / 2000) * 100}%`
+                      ? `${(priceRange[0] / UI_CONFIG.MAX_PRICE_RANGE) * 100}%` 
+                      : `${100 - (priceRange[1] / UI_CONFIG.MAX_PRICE_RANGE) * 100}%`
                   }}
                 />
               </div>
               <input
                 type="range"
                 min="0"
-                max="2000"
+                max={UI_CONFIG.MAX_PRICE_RANGE}
                 value={priceRange[0]}
                 onChange={e => {
                   const newMin = parseInt(e.target.value);
@@ -134,7 +158,7 @@ const ProductFilters = memo(({
               <input
                 type="range"
                 min="0"
-                max="2000"
+                max={UI_CONFIG.MAX_PRICE_RANGE}
                 value={priceRange[1]}
                 onChange={e => {
                   const newMax = parseInt(e.target.value);
@@ -154,13 +178,13 @@ const ProductFilters = memo(({
                 value={priceRange[1].toLocaleString('en-US')}
                 onChange={e => {
                   const value = e.target.value.replace(/,/g, '');
-                  const newMax = Math.min(2000, parseInt(value) || 2000);
+                  const newMax = Math.min(UI_CONFIG.MAX_PRICE_RANGE, parseInt(value) || UI_CONFIG.MAX_PRICE_RANGE);
                   if (newMax >= priceRange[0]) {
                     setPriceRange([priceRange[0], newMax]);
                     setCurrentPage(1);
                   }
                 }}
-                placeholder="2,000"
+                placeholder={UI_CONFIG.MAX_PRICE_RANGE.toLocaleString('en-US')}
                 className="border border-gray-300 pl-5 pr-2 py-1.5 text-sm rounded-md w-24 focus:ring-1 focus:ring-orange-400 focus:border-orange-400 focus:outline-none"
               />
             </div>
