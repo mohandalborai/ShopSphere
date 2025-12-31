@@ -37,8 +37,17 @@ export const productService = {
     return fetchFromApi(`/products?limit=${limit}&skip=${skip}`);
   },
 
-  getProductsByCategory: async (category) => {
-    return fetchFromApi(`/products/category/${category}`);
+  getProductsByCategory: async (category, limit = 0, skip = 0) => {
+    // If limit is 0, api returns all? No, api default is 30.
+    // We should probably default to something if we want lazy load.
+    // But let's just pass query params.
+    // If limit is not provided to function, use default or provided value.
+    const limitParam = limit ? `limit=${limit}` : '';
+    const skipParam = skip ? `&skip=${skip}` : '';
+    const query = [limitParam, skipParam].filter(Boolean).join('&');
+    const queryString = query ? `?${query}` : '';
+    
+    return fetchFromApi(`/products/category/${category}${queryString}`);
   },
 
   getProductById: async (id) => {
