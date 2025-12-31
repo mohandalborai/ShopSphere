@@ -66,6 +66,11 @@ const Products = () => {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+  
   // Memoize current products slice
   const currentProducts = useMemo(() => 
     filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct),
