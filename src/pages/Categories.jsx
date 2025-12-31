@@ -7,6 +7,10 @@ import ProductCard from '../components/products/ProductCard';
 import { motion } from 'framer-motion';
 import { productService } from '../services/api';
 import { CATEGORY_CONFIG } from '../utils/constants';
+import SuccessToast from '../components/common/SuccessToast';
+import CategoryHeader from '../components/categories/CategoryHeader';
+import CategoryNav from '../components/categories/CategoryNav';
+import ProductPagination from '../components/products/ProductPagination';
 
 const Categories = () => {
   const { category } = useParams();
@@ -24,8 +28,12 @@ const Categories = () => {
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [error, setError] = useState(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
   
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [addedProduct, setAddedProduct] = useState(null);
+
   // Ref to track if we are currently mounting/fetching to prevent race conditions
   const abortControllerRef = useRef(null);
   
@@ -33,22 +41,27 @@ const Categories = () => {
 
   // Fetch Categories List (Only once if possible, but due to remount in App.jsx it happens on every nav)
   useEffect(() => {
+    let mounted = true;
     const fetchCategories = async () => {
       try {
         const data = await productService.getCategories();
-        setCategories(data);
+        if (mounted) {
+          setCategories(data);
+        }
       } catch (err) {
         console.error("Failed to load categories", err);
-        // Don't block UI if categories fail, just show empty list
       } finally {
-        setLoadingCategories(false);
+        if (mounted) {
+          setLoadingCategories(false);
+        }
       }
     };
     fetchCategories();
+    return () => { mounted = false; };
   }, []);
 
-  // Fetch Products when activeCategory changes
-  const fetchProducts = useCallback(async (isLoadMore = false, currentSkip = 0) => {
+  // Fetch Products
+  const fetchProducts = useCallback(async () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -60,10 +73,7 @@ const Categories = () => {
 
     try {
       let data;
-      const skip = isLoadMore ? currentSkip : 0;
-      
-      // Log for debugging
-      // console.log(`Fetching products for ${activeCategory}, skip: ${skip}`);
+      const skip = (currentPage - 1) * ITEMS_PER_PAGE;
 
       if (activeCategory === 'all') {
         data = await productService.getAllProducts(ITEMS_PER_PAGE, skip);
@@ -73,15 +83,8 @@ const Categories = () => {
       
       if (controller.signal.aborted) return;
 
-      if (isLoadMore) {
-        setProducts(prev => [...prev, ...data.products]);
-      } else {
-        setProducts(data.products);
-      }
-      
-      // Check if we have more products to load
-      const totalLoaded = skip + data.products.length;
-      setHasMore(totalLoaded < data.total);
+      setProducts(data.products);
+      setTotalProducts(data.total);
 
     } catch (err) {
       if (err.name !== 'AbortError') {
@@ -93,13 +96,16 @@ const Categories = () => {
         setLoadingProducts(false);
       }
     }
-  }, [activeCategory, t]);
+  }, [activeCategory, currentPage, t]);
 
-  // Initial fetch when category changes
+  // Reset page when category changes
   useEffect(() => {
-    setProducts([]);
-    setHasMore(true);
-    fetchProducts(false, 0);
+    setCurrentPage(1);
+  }, [activeCategory]);
+
+  // Fetch when dependency changes (category or page)
+  useEffect(() => {
+    fetchProducts();
     
     return () => {
       if (abortControllerRef.current) {
@@ -108,17 +114,28 @@ const Categories = () => {
     };
   }, [fetchProducts]);
 
-  const handleCategoryClick = (slug) => {
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
+  const handleCategoryClick = useCallback((slug) => {
     navigate(slug === 'all' ? '/categories' : `/categories/${slug}`);
-  };
+  }, [navigate]);
 
-  const handleLoadMore = () => {
-    if (!loadingProducts && hasMore) {
-      fetchProducts(true, products.length);
+  const handleNextPage = useCallback(() => {
+    if (currentPage < Math.ceil(totalProducts / ITEMS_PER_PAGE)) {
+      setCurrentPage(prev => prev + 1);
     }
-  };
+  }, [currentPage, totalProducts]);
 
-  const handleAddToCart = (product) => {
+  const handlePrevPage = useCallback(() => {
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
+    }
+  }, [currentPage]);
+
+  const handleAddToCart = useCallback((product) => {
     if (!user) {
       navigate('/login', { 
         state: { 
@@ -129,8 +146,9 @@ const Categories = () => {
       return;
     }
     addToCart(product);
-    alert(t('added_to_cart'));
-  };
+    setAddedProduct(product);
+    setShowSuccessToast(true);
+  }, [user, navigate, location, addToCart]);
 
   if (loadingCategories) {
     return (
@@ -140,55 +158,20 @@ const Categories = () => {
     );
   }
 
+  const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {t('browse_categories')}
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t('categories_subtitle')}
-          </p>
-        </div>
+        <CategoryHeader t={t} />
 
-        {/* Categories Navigation */}
-        <div className="mb-10 sticky top-20 z-10 bg-gray-50/95 backdrop-blur-sm py-4 -mx-4 px-4 sm:mx-0 sm:px-0 transition-all duration-300">
-          <div className="flex overflow-x-auto pb-4 gap-3 hide-scrollbar sm:flex-wrap sm:justify-center px-2">
-            <button
-              onClick={() => handleCategoryClick('all')}
-              className={`whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 shadow-sm flex items-center gap-2 ${
-                activeCategory === 'all'
-                  ? 'bg-orange-500 text-white shadow-orange-200 ring-2 ring-orange-300 scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 hover:text-orange-500 border border-gray-200'
-              }`}
-            >
-              <span>🛍️</span>
-              {t('all_products')}
-            </button>
-            
-            {categories.map((cat) => {
-              const config = CATEGORY_CONFIG[cat.slug] || {};
-              const icon = config.icon || '📦';
-              return (
-                <button
-                  key={cat.slug}
-                  onClick={() => handleCategoryClick(cat.slug)}
-                  className={`whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 shadow-sm flex items-center gap-2 ${
-                    activeCategory === cat.slug
-                      ? 'bg-orange-500 text-white shadow-orange-200 ring-2 ring-orange-300 scale-105'
-                      : 'bg-white text-gray-700 hover:bg-gray-100 hover:text-orange-500 border border-gray-200'
-                  }`}
-                >
-                  <span>{icon}</span>
-                  {cat.name}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <CategoryNav 
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryClick={handleCategoryClick}
+          t={t}
+        />
 
         {/* Products Grid */}
         {products.length === 0 && !loadingProducts && !error ? (
@@ -232,24 +215,23 @@ const Categories = () => {
           </div>
         )}
 
-        {/* Load More Button (Lazy Load) */}
-        {!loadingProducts && hasMore && products.length > 0 && (
-          <div className="mt-12 text-center">
-            <button
-              onClick={handleLoadMore}
-              className="px-8 py-3 bg-white border-2 border-orange-500 text-orange-600 font-bold rounded-full hover:bg-orange-50 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
-            >
-              {t('load_more') || 'Load More Products'}
-            </button>
-          </div>
-        )}
-        
-        {!hasMore && products.length > 0 && (
-          <p className="text-center text-gray-500 mt-12 italic">
-            {t('no_more_products') || 'You have reached the end of the list'}
-          </p>
+        {/* Pagination */}
+        {!loadingProducts && !error && products.length > 0 && (
+          <ProductPagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onNext={handleNextPage}
+            onPrev={handlePrevPage}
+          />
         )}
 
+        {/* Success Toast */}
+        <SuccessToast 
+          show={showSuccessToast} 
+          onClose={() => setShowSuccessToast(false)}
+          message={t('added_to_cart')}
+          subMessage={addedProduct?.title}
+        />
       </div>
     </div>
   );
