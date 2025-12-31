@@ -63,7 +63,7 @@ const Categories = () => {
       const skip = isLoadMore ? currentSkip : 0;
       
       // Log for debugging
-      console.log(`Fetching products for ${activeCategory}, skip: ${skip}`);
+      // console.log(`Fetching products for ${activeCategory}, skip: ${skip}`);
 
       if (activeCategory === 'all') {
         data = await productService.getAllProducts(ITEMS_PER_PAGE, skip);
